@@ -1,13 +1,18 @@
 package teste;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
 public class Composicao {
 	private int numero;
     private Stack<Vagao> vagoes;
-
+    
+    public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "milho", "soja", "trigo"};
+	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel"};
+    
+   
     public Composicao(int numero) {
         this.numero = numero;
         this.vagoes = new Stack<>();
@@ -24,33 +29,49 @@ public class Composicao {
     public void adicionarVagao(Vagao vagao) {
         vagoes.push(vagao);
         vagao.setDisponivel(false);
-        System.out.println("Vag„o " + vagao.getNome() + " adicionado ‡ composiÁ„o " + numero + ".");
+        System.out.println("Vag√£o " + vagao.getNome() + " adicionado √† composi√ß√£o " + numero + ".");
     }
 
     public void adicionarCarga(String identificador, String conteudo, int quantidade) {
         for (Vagao vagao : vagoes) {
             if (vagao.getNome().equals(identificador)) {
-                vagao.adicionarCarga(conteudo, quantidade);
-                System.out.println("Carga de " + quantidade + "kg de " + conteudo + " adicionada ao vag„o " +
-                        vagao.getNome() + " na composiÁ„o " + numero + ".");
+                vagao.adicionarCarga(quantidade, conteudo, quantidade);
+                System.out.println("Carga de " + quantidade + "kg de " + conteudo + " adicionada ao vag√£o " +
+                        vagao.getNome() + " na composi√ß√£o " + numero + ".");
                 return;
             }
         }
-        System.out.println("Vag„o " + identificador + " n„o encontrado na composiÁ„o " + numero + ".");
+        System.out.println("Vag√£o " + identificador + " n√£o encontrado na composi√ß√£o " + numero + ".");
     }
 
-    public void desembarcarCarga(String identificador) {
+    public void desembarcarCarga(String identificador, int composicao) {
+    	List<String> conteudosPermitidos;
+        if (composicao == 1) {
+            conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR1);
+        } else if (composicao == 2) {
+            conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR2);
+        } else {
+            System.out.println("Composi√ß√£o inv√°lida.");
+            return;
+        }
+
         for (Vagao vagao : vagoes) {
             if (vagao.getNome().equals(identificador)) {
                 if (vagao.isVazio()) {
-                    System.out.println("Vag„o " + vagao.getNome() + " na composiÁ„o " + numero + " j· est· vazio.");
+                    System.out.println("Vag√£o " + vagao.getNome() + " na composi√ß√£o " + numero + " j√° est√° vazio.");
                 } else {
-                    vagao.desembarcarCarga();
-                    System.out.println("Carga desembarcada do vag„o " + vagao.getNome() + " na composiÁ„o " + numero + ".");
+                    String carga = vagao.getCarga().toLowerCase();
+                    if (conteudosPermitidos.contains(carga)) {
+                        vagao.desembarcarCarga();
+                        System.out.println("Carga desembarcada do vag√£o " + vagao.getNome() + " na composi√ß√£o " + numero + ".");
+                    } else {
+                        System.out.println("N√£o √© permitido desembarcar a carga " + vagao.getCarga() +
+                                " no vag√£o " + vagao.getNome() + " na composi√ß√£o " + numero + ".");
+                    }
                 }
                 return;
             }
         }
-        System.out.println("Vag„o " + identificador + " n„o encontrado na composiÁ„o " + numero + ".");
+        System.out.println("Vag√£o " + identificador + " n√£o encontrado na composi√ß√£o " + numero + ".");
     }
 }
