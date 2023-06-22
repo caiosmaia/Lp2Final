@@ -5,6 +5,7 @@ public class Vagao {
     private boolean disponivel;
     private String carga;
     private int quantidade;
+  
     
     public static final String[] conteudosPossiveisEnvioR1 = {"cobre", "ferro", "magnesita", "niquel"};
     public static final String[] conteudosPossiveisEnvioR2 = {"amendoim", "feijao", "milho", "soja", "trigo"};
@@ -43,14 +44,11 @@ public class Vagao {
         return carga.isEmpty() && quantidade == 0;
     }
 
-    public void adicionarCarga(int numero, String conteudo, int quantidade) {
-        
-       
+    public void adicionarCarga(int numero, String conteudo, int quantidade) {    
+    	
         		this.carga = conteudo;
         		this.quantidade = quantidade;
         	
-        
-        
     }
 
     public void desembarcarCarga() {
